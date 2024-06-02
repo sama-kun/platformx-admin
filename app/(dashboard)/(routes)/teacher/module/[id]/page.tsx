@@ -1,0 +1,145 @@
+"use client"
+
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller } from "react-hook-form";
+import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import JoditEditorUI from '../../../../../../components/ui/joditEditor';
+import ModuleLayout from '../../../../../../components/ModuleLayout'
+
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormLabel,
+    FormField,
+    FormMessage,
+    FormItem
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useEffect } from "react";
+import axiosInstance from "@/service/axiosInstance";
+import ButtonLayout from "@/components/ButtonLayout";
+
+const formSchema = z.object({
+    title: z.string().min(1, {
+        message: "Title is required",
+    }),
+    description: z.string().min(1, {
+        message: "Description is required",
+    })
+});
+
+const ModuleDetailPage = () => {
+    const router = useRouter();
+    const {id} = useParams();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            title: "",
+            description: "",
+        },
+    });
+
+    const fetchModule = async() => {
+        const response = await axiosInstance.get('/module/'+id);
+        if (response.status === 200) {
+            form.reset({
+                title: response.data.data.title,
+                description: response.data.data.description
+            });
+        }
+    }
+
+    useEffect(() => {
+        fetchModule();
+    }, [])
+
+    const { isSubmitting, isValid } = form.formState;
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            const response = await axiosInstance.patch("/module/"+id, values);
+            // router.push(`/teacher/courses/${response.data.id}`);
+            if(response.status < 300){
+                toast.success("Module successfully updated");
+            }
+            console.log(response.status);
+        } catch {
+            toast.error("Something went wrong");
+        }
+    };
+
+    return (
+      <ModuleLayout >
+        <ButtonLayout>
+        <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
+            <div>
+                <h1 className="text-2xl">Name your module</h1>
+                <p className="text-sm text-slate-600">
+                    What would you like to name your module? Don't worry, you can change it later.
+                </p>
+                <Form {...form}>
+                    <form 
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-8 mt-8"
+                    >
+                        <FormField 
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Course title</FormLabel>
+                                    <FormControl>
+                                        <Input 
+                                            disabled={isSubmitting}
+                                            placeholder="e.g. 'Cybersecurity'"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>What will you teach in this module?</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField 
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Module description</FormLabel>
+                                    <FormControl>
+                                        <JoditEditorUI 
+                                            disabled={isSubmitting}
+                                            name="description"
+                                            control={form.control}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>Describe the content of your module.</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex items-center gap-x-2">
+                            {/* <Link href="/"> */}
+                                <Button type="button" variant="ghost" onClick={() => fetchModule()}>Cancel</Button>
+                            {/* </Link> */}
+                            <Button 
+                                type="submit"
+                                disabled={!isValid || isSubmitting}
+                            >
+                                Update
+                            </Button>
+                        </div>
+                    </form>
+                </Form>
+            </div>
+        </div>
+        </ButtonLayout>
+        </ModuleLayout>
+    );
+}
+
+export default ModuleDetailPage;

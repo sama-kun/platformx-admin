@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Completion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .certificate {
+            width: 800px;
+            height: 600px;
+            border: 10px solid #e0e0e0;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            background: white;
+            overflow: hidden;
+        }
+        .certificate h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .certificate p {
+            text-align: center;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .certificate .highlight {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3d00ff;
+        }
+        .certificate .signature {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+        }
+        .certificate .signature div {
+            text-align: center;
+        }
+        .certificate .signature img {
+            width: 100px;
+        }
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .background .top-left, .background .bottom-right {
+            position: absolute;
+        }
+        .background .top-left {
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background: #1e255f;
+            border-top-right-radius: 300px;
+            border-bottom-left-radius: 0;
+        }
+        .background .bottom-right {
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: #1e255f;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 300px;
+        }
+        .background .top-left-inner {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 200px;
+            height: 200px;
+            background: #7e34f8;
+            border-top-right-radius: 200px;
+            border-bottom-left-radius: 0;
+        }
+        .background .bottom-right-inner {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            width: 200px;
+            height: 200px;
+            background: #7e34f8;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="background">
+            <div class="top-left"></div>
+            <div class="top-left-inner"></div>
+            <div class="bottom-right"></div>
+            <div class="bottom-right-inner"></div>
+        </div>
+        <h1>CERTIFICATE OF COMPLETION</h1>
+        <p>This is to certify that</p>
+        <p class="highlight">Ninel Mametyarova</p>
+        <p>has successfully finished the course</p>
+        <p class="highlight">BLUE TEAM</p>
+        <div class="signature">
+            <div>
+                <img src="signature.png" alt="Signature">
+                <p>Amanzholova S.T<br>Head of Cybersecurity Department</p>
+            </div>
+            <div>
+                <p>No 123456</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
