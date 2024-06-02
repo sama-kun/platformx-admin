@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import axiosInstance from "@/service/axiosInstance";
 import ButtonLayout from "@/components/ButtonLayout";
 
@@ -35,6 +35,7 @@ const formSchema = z.object({
 const ModuleDetailPage = () => {
     const router = useRouter();
     const {id} = useParams();
+    const { reset } = useForm();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -43,19 +44,19 @@ const ModuleDetailPage = () => {
         },
     });
 
-    const fetchModule = async() => {
-        const response = await axiosInstance.get('/module/'+id);
-        if (response.status === 200) {
-            form.reset({
-                title: response.data.data.title,
-                description: response.data.data.description
-            });
-        }
+  const fetchModule = useCallback(async () => {
+    const response = await axiosInstance.get('/module/' + id);
+    if (response.status === 200) {
+      form.reset({
+        title: response.data.data.title,
+        description: response.data.data.description,
+      });
     }
+  }, [id, form]);
 
-    useEffect(() => {
-        fetchModule();
-    }, [])
+  useEffect(() => {
+    fetchModule();
+  }, [fetchModule]);
 
     const { isSubmitting, isValid } = form.formState;
 
@@ -79,7 +80,7 @@ const ModuleDetailPage = () => {
             <div>
                 <h1 className="text-2xl">Name your module</h1>
                 <p className="text-sm text-slate-600">
-                    What would you like to name your module? Don't worry, you can change it later.
+                    What would you like to name your module? Don not worry, you can change it later.
                 </p>
                 <Form {...form}>
                     <form 

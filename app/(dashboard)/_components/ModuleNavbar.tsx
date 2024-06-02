@@ -6,6 +6,7 @@ import axiosInstance from '@/service/axiosInstance';
 
 // import { Home, Info, ContactMail, Dashboard } from '@mui/icons-material';
 // import { IconButton, Tooltip } from '@mui/material';
+import { useCallback } from 'react';
 
 const Navbar = () => {
   const {id, flagId, subjectId} = useParams();
@@ -14,7 +15,7 @@ const Navbar = () => {
   const [subjects, setSubjects] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
   const isActive = !flagId && !subjectId;
-  const fetchModule = async () => {
+  const fetchModule = useCallback(async () => {
     const moduleRes = await axiosInstance.get(`/module/${id}`, {
       params: {
           relations: ['course', 'taskFlags', 'subjects'],
@@ -30,11 +31,11 @@ const Navbar = () => {
       setTasks(moduleRes.data.data.taskFlags)
       setSubjects(moduleRes.data.data.subjects)
   }
-  } 
+  }, [id])
 
   useEffect(() => {
     fetchModule()
-  }, [id])
+  }, [fetchModule])
   return (
     <div className="flex flex-col w-64 h-screen text-black fixed overflow-y-auto">
       <div className="flex items-center justify-center h-20">

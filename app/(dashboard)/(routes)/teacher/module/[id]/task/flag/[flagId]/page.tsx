@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ModuleLayout from "@/components/ModuleLayout";
 import axiosInstance from "@/service/axiosInstance";
-import { useEffect } from "react";
+import { useEffect, useCallback } from 'react';
 import FileInput from "@/app/(dashboard)/_components/fileInput";
 import ButtonLayout from "@/components/ButtonLayout";
 
@@ -48,7 +48,7 @@ const TaskFlagDetailPage = () => {
         },
     });
 
-    const fetchFlagTask = async () => {
+    const fetchFlagTask = useCallback(async () => {
         const response = await axiosInstance.get('/task-flag/'+flagId);
         console.log(response.data);
         form.reset({
@@ -56,7 +56,7 @@ const TaskFlagDetailPage = () => {
             description: response.data.data.description,
             // flag: response.data.data.flag,
         });
-    }
+    }, [form, flagId])
 
     const onDelete = async() => {
         const response = await axiosInstance.delete('/task-flag/'+flagId);
@@ -84,7 +84,7 @@ const TaskFlagDetailPage = () => {
 
     useEffect(() => {
         fetchFlagTask();
-    }, [])
+    }, [fetchFlagTask])
 
     return (
         <ModuleLayout >
@@ -93,7 +93,7 @@ const TaskFlagDetailPage = () => {
             <div>
                 <h1 className="text-2xl">Name your Task Flag</h1>
                 <p className="text-sm text-slate-600">
-                    What would you like to name your Task Flag? Don't worry, you can change it later.
+                    What would you like to name your Task Flag? Don not worry, you can change it later.
                 </p>
                 <Form {...form}>
                     <form 
@@ -141,7 +141,7 @@ const TaskFlagDetailPage = () => {
                             name="flag"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Task Flag's answer</FormLabel>
+                                    <FormLabel>Task Flag of answer</FormLabel>
                                     <FormControl>
                                         <Input 
                                             disabled={isSubmitting}

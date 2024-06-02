@@ -70,7 +70,7 @@ const TaskFlagCreatePage = () => {
             <div>
                 <h1 className="text-2xl">Name your Task Flag</h1>
                 <p className="text-sm text-slate-600">
-                    What would you like to name your Task Flag? Don't worry, you can change it later.
+                    What would you like to name your Task Flag? Don not worry, you can change it later.
                 </p>
                 <Form {...form}>
                     <form 
@@ -118,7 +118,7 @@ const TaskFlagCreatePage = () => {
                             name="flag"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Task Flag's answer</FormLabel>
+                                    <FormLabel>Task Flag of answer</FormLabel>
                                     <FormControl>
                                         <Input 
                                             disabled={isSubmitting}

@@ -4,7 +4,7 @@ import UploadModal from './UploadModal';
 import { IconButton } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-function ButtonLayout({ children }) {
+function ButtonLayout({ children }: any) {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (

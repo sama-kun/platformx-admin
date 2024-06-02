@@ -23,30 +23,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ModuleTable from "@/app/(dashboard)/_components/ModuleTable";
 import axiosInstance from "@/service/axiosInstance";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ButtonLayout from "@/components/ButtonLayout";
 import ImageUpload from "@/app/(dashboard)/_components/ImageUpload";
 
-const modules = [
-  {
-    id: 1,
-    title: 'Module 1',
-  },
-  {
-    id: 2,
-    title: 'Module 2',
-  },
-  // {
-  //   id: 3,
-  //   title: 'Module 1',
-  // },
-  // {
-  //   id: 4,
-  //   title: 'Module 2',
-  // },
-  // Add more modules as needed
-];
-
+interface CourseFormValues {
+  title: string;
+  description: string;
+  key: string;
+  vm: string;
+}
 
 const DetailPage = () => {
     const formSchema = z.object({
@@ -63,7 +49,7 @@ const DetailPage = () => {
     const { id } = useParams();
     const [course, setCourse] = useState<any>({});
     const [modules, setModules] = useState<any[]>([]);
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<CourseFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
@@ -73,69 +59,53 @@ const DetailPage = () => {
         },
     });
 
-    // const getLengthOfTasks = async(moduleId: any) => {
-    //     const tasksRes = await axiosInstance.get('/task-flag', {
-    //         params: {
-    //             relations: ['module'],
-    //             filter:{
-    //                 module:{
-    //                     id: moduleId,
-    //                 }
-    //             }
-    //         }
-    //     })
-    // }
-
-    const fetchCourseAndModules = async() => {
-        const courseRes = await axiosInstance.get('/course/'+id, {
-            params: {
-                relations: ['myCourses']
-            }
+    const fetchCourseAndModules = useCallback(async () => {
+        const courseRes = await axiosInstance.get('/course/' + id, {
+          params: {
+            relations: ['myCourses']
+          }
         });
-
-        console.log(courseRes.data.data)
-
-        if(courseRes.status === 200){
-            setCourse(courseRes.data.data)
-            form.reset({
-                title: courseRes.data.data.title,
-                description: courseRes.data.data.description,
-                key: courseRes.data.data.key,
-                vm: courseRes.data.data.vm,
-            });
-            const moduleRes = await axiosInstance.get('/module', {
-                params: {
-                    relations: ['course', 'taskFlags'],
-                    filter: {
-                        course: {
-                            id
-                        }
-                    }
+    
+        console.log(courseRes.data.data);
+    
+        if (courseRes.status === 200) {
+          setCourse(courseRes.data.data);
+          form.reset({
+            title: courseRes.data.data.title,
+            description: courseRes.data.data.description,
+            key: courseRes.data.data.key,
+            vm: courseRes.data.data.vm,
+          });
+          const moduleRes = await axiosInstance.get('/module', {
+            params: {
+              relations: ['course', 'taskFlags'],
+              filter: {
+                course: {
+                  id
                 }
-            });
-            console.log(moduleRes.data.data.records);
-            if(moduleRes.status === 200) {
-                setModules(moduleRes.data.data.records)
+              }
             }
+          });
+          console.log(moduleRes.data.data.records);
+          if (moduleRes.status === 200) {
+            setModules(moduleRes.data.data.records);
+          }
         }
-    }
+      }, [form, id]);
 
     useEffect(() => {
         fetchCourseAndModules();
-    }, [])
+    }, [fetchCourseAndModules])
 
     const { isSubmitting, isValid } = form.formState;
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: CourseFormValues) => {
         try {
             const response = await axiosInstance.patch("/course/"+id, values);
-            // router.push(`/teacher/courses/${response.data.id}`);
             if (response.status < 300) {
-                // console.log(response.data.data)
-                toast.success("Course was successfully updated")
+                toast.success("Course was successfully updated");
             }
-
-            console.log(values)
+            console.log(values);
         } catch {
             toast.error("Something went wrong");
         }
@@ -148,7 +118,7 @@ const DetailPage = () => {
             <div>
                 <h1 className="text-2xl">Name your course</h1>
                 <p className="text-sm text-slate-600">
-                    What would you like to name your course? Don't worry, you can change it later.
+                    What would you like to name your course? Don not worry, you can change it later.
                 </p>
                 <Form {...form}>
                     <form 
@@ -180,11 +150,11 @@ const DetailPage = () => {
                                 <FormItem>
                                     <FormLabel>Course description</FormLabel>
                                     <FormControl>
-                                        <JoditEditorUI 
-                                            disabled={isSubmitting}
-                                            name="description"
-                                            control={form.control}
-                                        />
+                                    <JoditEditorUI<CourseFormValues>
+                          disabled={isSubmitting}
+                          name="description"
+                          control={form.control}
+                        />
                                     </FormControl>
                                     <FormDescription>Describe the content of your course.</FormDescription>
                                     <FormMessage />

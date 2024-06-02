@@ -6,18 +6,22 @@ import axiosInstance from '@/service/axiosInstance';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { useCallback } from 'react';
+
+
+interface FileType {
+  id: number;
+  type: string;
+  url: string;
+  public_id: string;
+}
 
 const FileInput = () => {
   const {flagId} = useParams();
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] =  useState<FileType[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Функция для загрузки уже существующих файлов
-  useEffect(() => {
-    fetchFiles();
-  }, []);
-
-  const fetchFiles = async() => {
+  const fetchFiles = useCallback(async() => {
     setLoading(true);
     console.log(flagId)
     await axiosInstance.get(`/cloud/getByTask/${flagId}`)
@@ -27,33 +31,44 @@ const FileInput = () => {
       })
       .catch(error => console.error('Error fetching files:', error))
       .finally(() => setLoading(false));
-  };
+  }, [flagId]);
 
-  const handleFileChange = async (event) => {
-    const files = event.target.files;
-    const formData = new FormData();
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
+
   
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (!files) {
+      toast.error('No files selected');
+      return;
+    }
+
+    const formData = new FormData();
+
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i]);
     }
-    formData.append('taskFlag', flagId);
-  
+    formData.append('taskFlag', flagId as string);
+
     setLoading(true); // Устанавливаем загрузку на true до начала всех загрузок
-  
+
     try {
       const res = await axiosInstance.post('/cloud/upload-multiply', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       if (res.status >= 300) {
-        toast.error('Files do not uploaded retry please');
+        toast.error('Files do not uploaded, retry please');
         setLoading(false);
         return;
       }
-  
-      // setFiles([...files, res.data.data.records]);
+
       fetchFiles();
     } catch (error) {
       toast.error('An error occurred while uploading the files');
@@ -63,7 +78,7 @@ const FileInput = () => {
   };
   
 
-  const filePreview = (file) => {
+  const filePreview = (file: FileType) => {
     if (file.type === 'image') {
       return <CardMedia 
           component="img"
@@ -111,11 +126,11 @@ const FileInput = () => {
       </label>
       <div className="flex overflow-x-auto py-2">
         {loading && <CircularProgress />}
-        {files.map((file, index) => (
+        {files.map((file: FileType, index) => (
           <Card key={index} className="mx-2" style={{ width: 200, position: 'relative' }}>
             {filePreview(file)}
             <IconButton
-              onClick={() => handleDelete(parseInt(file.id))}
+              onClick={() => handleDelete(file.id)}
               style={{
                 position: 'absolute',
                 top: '5px',

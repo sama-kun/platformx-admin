@@ -3,7 +3,7 @@ import { getAuthToken, removeAuthToken } from './auth';
 
 // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvb3RAZXhhbXBsZS5jb20iLCJpZCI6Miwicm9sZSI6InJvb3QiLCJpYXQiOjE3MTcwNjExNDMsImV4cCI6MTcxNzE0NzU0M30.oK50UGELx2vdl0rlAWgYHDLIjQELt140TjqBfdgafyk';
 const axiosInstance = axios.create({
-  baseURL: 'http://0.0.0.0:6671',
+  baseURL: 'http://localhost:6670',
   headers: {
     'Content-Type': 'application/json',
     "timeout": 60000,

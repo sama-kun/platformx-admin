@@ -1,14 +1,14 @@
-// JoditEditorComponent.tsx
 import dynamic from 'next/dynamic';
-import { useController, UseControllerProps } from 'react-hook-form';
+import { useController, UseControllerProps, FieldValues } from 'react-hook-form';
 
 const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false });
 
-interface JoditEditorComponentProps extends UseControllerProps {
+interface JoditEditorComponentProps<T extends FieldValues> extends UseControllerProps<T> {
   config?: any;
+  disabled?: boolean;
 }
 
-const JoditEditorUI: React.FC<JoditEditorComponentProps> = (props) => {
+const JoditEditorUI = <T extends FieldValues>(props: JoditEditorComponentProps<T>) => {
   const {
     field: { onChange, value },
   } = useController(props);
@@ -16,7 +16,7 @@ const JoditEditorUI: React.FC<JoditEditorComponentProps> = (props) => {
   return (
     <JoditEditor
       value={value}
-      config={{ readonly: false, ...props.config }}
+      config={{ readonly: props.disabled, ...props.config }}
       onBlur={newContent => onChange(newContent)}
     />
   );

@@ -65,7 +65,7 @@ const CreateModulePage = () => {
             <div>
                 <h1 className="text-2xl">Name your module</h1>
                 <p className="text-sm text-slate-600">
-                    What would you like to name your module? Don't worry, you can change it later.
+                    What would you like to name your module? Don not worry, you can change it later.
                 </p>
                 <Form {...form}>
                     <form 

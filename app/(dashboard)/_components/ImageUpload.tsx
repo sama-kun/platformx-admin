@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axiosInstance from '@/service/axiosInstance';
 import toast from 'react-hot-toast';
 
-const ImageUpload = ({ courseId, initialImage }) => {
+const ImageUpload = ({ courseId, initialImage }: any) => {
    // Лог для отладки
    console.log('Initial Image:', initialImage);
    const [image, setImage] = useState<string | null>(null);
@@ -18,7 +18,7 @@ const ImageUpload = ({ courseId, initialImage }) => {
       setImage(initialImage);
     }
   }, [initialImage]);
-  const handleFileChange = async (event) => {
+  const handleFileChange = async (event: { target: { files: any; }; }) => {
     const files = event.target.files;
     if (files.length > 1) {
       toast.error('You can only upload one file.');

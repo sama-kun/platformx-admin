@@ -66,7 +66,7 @@ const ModuleDetailPage = () => {
             <div>
                 <h1 className="text-2xl">Name your Subject</h1>
                 <p className="text-sm text-slate-600">
-                    What would you like to name your subject? Don't worry, you can change it later.
+                    What would you like to name your subject? Don not worry, you can change it later.
                 </p>
                 <Form {...form}>
                     <form 

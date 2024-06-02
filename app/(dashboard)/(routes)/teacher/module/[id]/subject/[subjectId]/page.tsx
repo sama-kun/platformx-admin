@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axiosInstance from "@/service/axiosInstance";
 import ModuleLayout from "@/components/ModuleLayout";
-import { useEffect } from "react";
+import { useEffect, useCallback } from 'react';
 import ButtonLayout from "@/components/ButtonLayout";
 
 const formSchema = z.object({
@@ -45,14 +45,14 @@ const ModuleDetailPage = () => {
 
     const { isSubmitting, isValid } = form.formState;
 
-    const fetchSubject = async () => {
+    const fetchSubject = useCallback(async () => {
         const response = await axiosInstance.get('/subject/'+subjectId);
         console.log(response.data);
         form.reset({
             title: response.data.data.title,
             description: response.data.data.description,
         });
-    }
+    }, [subjectId, form]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -68,7 +68,7 @@ const ModuleDetailPage = () => {
 
     useEffect(() => {
         fetchSubject();
-    }, [id])
+    }, [fetchSubject])
 
     return (
         <ModuleLayout >
@@ -77,7 +77,7 @@ const ModuleDetailPage = () => {
             <div>
                 <h1 className="text-2xl">Name your Subject</h1>
                 <p className="text-sm text-slate-600">
-                    What would you like to name your subject? Don't worry, you can change it later.
+                    What would you like to name your subject? Don not worry, you can change it later.
                 </p>
                 <Form {...form}>
                     <form 
