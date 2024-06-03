@@ -33,7 +33,7 @@ const formSchema = z.object({
     description: z.string().min(1, {
         message: "Description is required",
     }),
-    flag: z.string()
+    flag: z.string().optional()
 });
 
 const TaskFlagDetailPage = () => {
@@ -71,23 +71,27 @@ const TaskFlagDetailPage = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            console.log(values)
-            const response = await axiosInstance.patch('/task-flag/'+flagId, values)
-            // router.push(`/teacher/courses/${response.data.id}`);
+            // Создаем новый объект, исключая пустое поле flag
+            const payload = {
+                title: values.title,
+                description: values.description,
+                ...(values.flag && { flag: values.flag }),
+            };
+            console.log(payload);
+            const response = await axiosInstance.patch('/task-flag/'+flagId, payload);
             if(response.status < 300) {
-                toast.success("Task Flag successfully updated")
+                toast.success("Task Flag successfully updated");
             }
-        } catch {
+        } catch (error) {
             toast.error("Something went wrong");
         }
     };
 
     useEffect(() => {
         fetchFlagTask();
-    }, [fetchFlagTask])
+    }, [fetchFlagTask]);
 
     return (
-
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
             <div>
                 <h1 className="text-2xl">Name your Task Flag</h1>
@@ -154,7 +158,7 @@ const TaskFlagDetailPage = () => {
                             )}
                         />
                         <div className="flex items-center gap-x-2">
-                                <Button type="button" variant="ghost" onClick={() => fetchFlagTask()}>Cancel</Button>
+                            <Button type="button" variant="ghost" onClick={() => fetchFlagTask()}>Cancel</Button>
                             <Button 
                                 type="submit"
                                 // disabled={!isValid || isSubmitting}

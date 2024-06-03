@@ -31,7 +31,7 @@ const CoursesPage = () => {
                 <Card
                 key={index}
                 title={course.title}
-                imageUrl={course.imageUrl}
+                imageUrl={course.image}
                 link={course.link}
                 id={course.id}
                 />
