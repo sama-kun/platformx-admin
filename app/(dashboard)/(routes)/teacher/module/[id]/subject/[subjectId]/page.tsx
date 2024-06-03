@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axiosInstance from "@/service/axiosInstance";
-import ModuleLayout from "@/components/ModuleLayout";
+import ModuleLayout from "../../../layout";
 import { useEffect, useCallback } from 'react';
 import ButtonLayout from "@/components/ButtonLayout";
 
@@ -71,8 +71,6 @@ const ModuleDetailPage = () => {
     }, [fetchSubject])
 
     return (
-        <ModuleLayout >
-        <ButtonLayout>
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
             <div>
                 <h1 className="text-2xl">Name your Subject</h1>
@@ -135,8 +133,6 @@ const ModuleDetailPage = () => {
                 </Form>
             </div>
         </div>
-        </ButtonLayout>
-        </ModuleLayout>
     );
 }
 

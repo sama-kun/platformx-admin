@@ -1,3 +1,16 @@
+
+// const ModuleLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+//     return ( 
+//       <div className="h-full">
+//         <main className="md:pl-56 pt-[80px] h-full">
+//           {children}
+//         </main>
+//       </div>
+//     );
+//   };
+
+// export default ModuleLayout;
+"use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AddButton from '@/components/ui/AddButton';
@@ -8,7 +21,11 @@ import axiosInstance from '@/service/axiosInstance';
 // import { IconButton, Tooltip } from '@mui/material';
 import { useCallback } from 'react';
 
-const Navbar = () => {
+const ModuleLayout = ({ 
+    children 
+} :{
+    children: React.ReactNode 
+}) => {
   const {id, flagId, subjectId} = useParams();
   const router = useRouter();
   const [moduler, setModule] = useState<any>({});
@@ -26,6 +43,7 @@ const Navbar = () => {
           }
       }
   });
+  
   if(moduleRes.status < 300) {
       setModule(moduleRes.data.data)
       setTasks(moduleRes.data.data.taskFlags)
@@ -37,6 +55,7 @@ const Navbar = () => {
     fetchModule()
   }, [fetchModule])
   return (
+    <div className=''>
     <div className="flex flex-col w-64 h-screen text-black fixed overflow-y-auto">
       <div className="flex items-center justify-center h-20">
         <span className="text-xl font-bold text-center">{moduler.title}</span>
@@ -76,8 +95,11 @@ const Navbar = () => {
         <AddButton onClick={() => router.push(`/teacher/module/${id}/task/flag/create`)} />
       </div>
     </div>
-
+    <main className='pl-56 pt-[20px] h-full'>{children}</main>
+    </div>
   );
 };
 
-export default Navbar;
+export default ModuleLayout;
+
+  

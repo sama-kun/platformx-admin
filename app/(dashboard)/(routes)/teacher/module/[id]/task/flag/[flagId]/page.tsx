@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import ModuleLayout from "@/components/ModuleLayout";
+import ModuleLayout from "../../../../layout";
 import axiosInstance from "@/service/axiosInstance";
 import { useEffect, useCallback } from 'react';
 import FileInput from "@/app/(dashboard)/_components/fileInput";
@@ -87,8 +87,7 @@ const TaskFlagDetailPage = () => {
     }, [fetchFlagTask])
 
     return (
-        <ModuleLayout >
-            <ButtonLayout>
+
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
             <div>
                 <h1 className="text-2xl">Name your Task Flag</h1>
@@ -176,8 +175,6 @@ const TaskFlagDetailPage = () => {
                 <FileInput />
             </div>
         </div>
-        </ButtonLayout>
-        </ModuleLayout>
     );
 }
 
