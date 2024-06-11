@@ -20,6 +20,7 @@ import axiosInstance from '@/service/axiosInstance';
 // import { Home, Info, ContactMail, Dashboard } from '@mui/icons-material';
 // import { IconButton, Tooltip } from '@mui/material';
 import { useCallback } from 'react';
+import ImageUpload from '@/app/(dashboard)/_components/ImageUpload';
 
 const ModuleLayout = ({ 
     children 

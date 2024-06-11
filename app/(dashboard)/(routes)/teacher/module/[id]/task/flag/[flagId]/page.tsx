@@ -26,6 +26,8 @@ import { useEffect, useCallback } from 'react';
 import FileInput from "@/app/(dashboard)/_components/fileInput";
 import ButtonLayout from "@/components/ButtonLayout";
 
+type FormSchema = z.infer<typeof formSchema>
+
 const formSchema = z.object({
     title: z.string().min(1, {
         message: "Title is required",
@@ -39,13 +41,14 @@ const formSchema = z.object({
 const TaskFlagDetailPage = () => {
     const {flagId, id} = useParams();
     const router = useRouter();
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: '',
-            description: '',
-            flag: "",
-        },
+        defaultValues: async () => {
+            return {
+                title: "",
+                description: ""
+            }
+        }
     });
 
     const fetchFlagTask = useCallback(async () => {
@@ -92,6 +95,7 @@ const TaskFlagDetailPage = () => {
     }, [fetchFlagTask]);
 
     return (
+        <ButtonLayout>
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
             <div>
                 <h1 className="text-2xl">Name your Task Flag</h1>
@@ -179,6 +183,7 @@ const TaskFlagDetailPage = () => {
                 <FileInput />
             </div>
         </div>
+        </ButtonLayout>
     );
 }
 
