@@ -65,7 +65,7 @@ const TaskFlagDetailPage = () => {
         const response = await axiosInstance.delete('/task-flag/'+flagId);
         if(response.status < 300) {
             toast.success('Was deleted!!!')
-            router.push('/teacher/module'+id);
+            router.push('/teacher/module/'+id);
         }
         console.log(response.data);
     }
