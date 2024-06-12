@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import JoditEditorUI from '../../../../../../../../components/ui/joditEditor';
+import JoditEditorUI from '../../../../../../../components/ui/joditEditor';
 
 import {
     Form,
@@ -32,7 +32,7 @@ const formSchema = z.object({
 });
 
 const ModuleDetailPage = () => {
-    const {id} = useParams(); 
+    const {moduleId} = useParams(); 
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -48,11 +48,11 @@ const ModuleDetailPage = () => {
         try {
             const response = await axiosInstance
             .post("/subject", 
-            {...values, module: id});
+            {...values, module: moduleId});
             // router.push(`/teacher/courses/${response.data.id}`);
             if(response.status < 300){
                 toast.success("New Subject was successfully created")
-                router.push('/teacher/module/'+id+'/subject/'+response.data.data.id)
+                router.push('/teacher/module/'+moduleId+'/subject/'+response.data.data.id)
             }
             console.log(values)
         } catch {
@@ -110,7 +110,7 @@ const ModuleDetailPage = () => {
                             )}
                         />
                         <div className="flex items-center gap-x-2">
-                            <Link href={"/module/"+id} >
+                            <Link href={"/teacher/module/"+moduleId} >
                                 <Button type="button" variant="ghost">Cancel</Button>
                             </Link>
                             <Button 

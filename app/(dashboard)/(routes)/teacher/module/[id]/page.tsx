@@ -2,11 +2,11 @@
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import JoditEditorUI from '../../../../../../components/ui/joditEditor';
-import ModuleLayout from "../layout";
+// import ModuleLayout from "../layout";
 
 import {
     Form,
@@ -74,6 +74,7 @@ const ModuleDetailPage = () => {
     };
 
     return (
+        <ButtonLayout>
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
             <div>
                 <h1 className="text-2xl">Name your module</h1>
@@ -136,8 +137,7 @@ const ModuleDetailPage = () => {
                 </Form>
             </div>
         </div>
-
-
+        </ButtonLayout>
     );
 }
 

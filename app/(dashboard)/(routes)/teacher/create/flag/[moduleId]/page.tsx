@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import JoditEditorUI from '../../../../../../../../../components/ui/joditEditor';
+import JoditEditorUI from '@/components/ui/joditEditor';
 
 import {
     Form,
@@ -36,7 +36,7 @@ const formSchema = z.object({
 
 const TaskFlagCreatePage = () => {
     const router = useRouter();
-    const {id} = useParams();
+    const {moduleId} = useParams();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -50,12 +50,12 @@ const TaskFlagCreatePage = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const response = await axiosInstance.post("/task-flag", { ...values, module: id});
+            const response = await axiosInstance.post("/task-flag", { ...values, module: moduleId});
             // router.push(`/teacher/courses/${response.data.id}`);
             if (response.status < 300) {
                 // console.log(response.data.data)
                 toast.success("New Flag Task was successfully created")
-                router.push('/teacher/module/'+id+'/task/flag/'+response.data.data.id)
+                router.push('/teacher/module/'+moduleId+'/task/flag/'+response.data.data.id)
             }
             console.log(response.data);
         } catch (error) {
@@ -133,7 +133,7 @@ const TaskFlagCreatePage = () => {
                         />
                         <div className="flex items-center gap-x-2">
                             {/* <Link href="/"> */}
-                                <Button type="button" variant="ghost" onClick={() => router.push('/teacher/module/'+id)}>Cancel</Button>
+                                <Button type="button" variant="ghost" onClick={() => router.push('/teacher/module/'+moduleId)}>Cancel</Button>
                             {/* </Link> */}
                             <Button
                                 type="submit"

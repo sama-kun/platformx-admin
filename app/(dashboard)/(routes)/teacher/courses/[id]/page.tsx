@@ -213,7 +213,7 @@ const DetailPage = () => {
 
                   <div className="py-5">
                   <h1 className="text-2xl py-5">Modules</h1>
-                    <Button onClick={() => router.push('/teacher/module/create/'+id)}>
+                    <Button onClick={() => router.push('/teacher/create/module/'+id)}>
                       Add new module
                     </Button>
                   </div>

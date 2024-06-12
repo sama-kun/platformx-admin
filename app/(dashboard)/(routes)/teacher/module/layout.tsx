@@ -80,7 +80,7 @@ const ModuleLayout = ({
             </Link>
           ))}
         </nav>
-        <AddButton onClick={() => router.push(`/teacher/module/${id}/subject/create`)} />
+        <AddButton onClick={() => router.push(`/teacher/create/subject/${id}`)} />
         <nav className="flex flex-col p-4 space-y-4">
           <span className="text-xl font-bold">Tasks</span>
           {tasks.map((value, index) => (
@@ -93,7 +93,7 @@ const ModuleLayout = ({
             </Link>
           ))}
         </nav>
-        <AddButton onClick={() => router.push(`/teacher/module/${id}/task/flag/create`)} />
+        <AddButton onClick={() => router.push(`/teacher/create/flag/${id}`)} />
       </div>
     </div>
     <main className='pl-56 pt-[20px] h-full'>{children}</main>
