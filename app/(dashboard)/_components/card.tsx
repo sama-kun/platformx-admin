@@ -17,7 +17,7 @@ const Card = ({id, title, imageUrl, link}: any) => {
       </div>
       {/* <Link> */}
         <Button className="px-4 py-2 text-white rounded-md" 
-        onClick={() => router.push('/teacher/courses/'+id)}
+        onClick={() => router.push(link)}
         >
           Open
         </Button>

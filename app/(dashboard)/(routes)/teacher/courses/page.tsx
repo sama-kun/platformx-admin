@@ -32,7 +32,7 @@ const CoursesPage = () => {
                 key={index}
                 title={course.title}
                 imageUrl={course.image}
-                link={course.link}
+                link={'/teacher/courses/'+course.id}
                 id={course.id}
                 />
             ))}
