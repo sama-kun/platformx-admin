@@ -61,7 +61,7 @@ const ModuleLayout = ({
       <div className="flex items-center justify-center h-20">
         <span className="text-xl font-bold text-center">{moduler.title}</span>
       </div>
-      <div className="flex flex-col flex-1 overflow-y-auto">
+      <div className="flex flex-col flex-1 overflow-y-auto h-[calc(100vh - 80px)] pb-[100px]">
         <nav className="flex flex-col p-4 space-y-4">
           <Link 
             href={`/teacher/module/${id}`} 
