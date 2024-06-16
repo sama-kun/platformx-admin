@@ -55,7 +55,7 @@ const CoursesAnalyticsPage = () => {
       try {
         const { data } = await axiosInstance.get(`/my-course`, {
             params: {
-                relations: ['course', 'createdBy'],
+                relations: ['course', 'createdBy', 'certificate'],
                 filter: {
                   course: {
                     id: courseId,
@@ -210,9 +210,10 @@ const CoursesAnalyticsPage = () => {
                             <TableCell align="right">
                               {value.isFinished ? (
                                 <MyTooltip title="Copy Certificate ID">
-                                <Button onClick={() => handleCopy('AY7D23')}>
+                                <Button onClick={() => handleCopy(value.certificate.code || "AY7D23")}>
                                     <FileCopyIcon />
-                                    AY7D23
+
+                                    {value.certificate.code || "AY7D23"}
                                 </Button>
                             </MyTooltip>
                               ) : (
