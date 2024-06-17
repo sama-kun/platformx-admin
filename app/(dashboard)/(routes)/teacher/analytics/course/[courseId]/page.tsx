@@ -213,7 +213,7 @@ const CoursesAnalyticsPage = () => {
                                 <Button onClick={() => handleCopy(value.certificate.code || "AY7D23")}>
                                     <FileCopyIcon />
 
-                                    {value.certificate.code || "AY7D23"}
+                                    {value.certificate?.code || "AY7D23"}
                                 </Button>
                             </MyTooltip>
                               ) : (
